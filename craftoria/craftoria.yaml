@@ -1,0 +1,39 @@
+services:
+    craftoria:
+        image: itzg/minecraft-server:latest
+        container_name: craftoria
+        tty: true
+        user: 1000:1000
+        stdin_open: true
+        ports:
+            - "25566:25565"
+        environment:
+            EULA: "TRUE"
+            USE_AIKAR_FLAGS: "TRUE"
+            TYPE: "AUTO_CURSEFORGE"
+            MAX_MEMORY: 10G
+            TZ: Asia/Kolkata
+            MOTD: "memento mori"
+            DIFFICULTY: hard
+            SERVER_NAME: "create music"
+            LOG_TIMESTAMP: true
+            EXISTING_WHITELIST_FILE: MERGE
+            EXISTING_OPS_FILE: MERGE
+            CF_API_KEY: ${CF_API_KEY?err}
+            CF_EXCLUDE_MODS: 737481 363363 394468 986380 844662 568563 915902 690971 455508 1089803 511319
+            CF_SLUG: craftoria
+        deploy:
+            resources:
+                limits:
+                    memory: 12G
+        volumes:
+            - $vols/craftoria/data:/data
+            - $vols/craftoria/downloads:/downloads
+        networks:
+            - mc-router0
+        restart: always
+
+networks:
+    mc-router0:
+        name: mc-router0
+        external: true

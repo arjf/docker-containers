@@ -1,0 +1,39 @@
+services:
+    liminal:
+        image: itzg/minecraft-server:latest
+        container_name: liminal
+        tty: true
+        user: 1000:1000
+        stdin_open: true
+        environment:
+            EULA: "TRUE"
+            JVM_OPTS: "-Xms4G -Xmx12G -XX:+UseZGC -XX:+ZGenerational -XX:SoftMaxHeapSize=10g -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:+PerfDisableSharedMem -XX:+UseDynamicNumberOfGCThreads"
+            TYPE: "AUTO_CURSEFORGE"
+            MAX_MEMORY: 12G
+            TZ: Asia/Kolkata
+            MOTD: "memento mori"
+            DIFFICULTY: hard
+            SERVER_NAME: "the backroom"
+            LOG_TIMESTAMP: true
+            EXISTING_WHITELIST_FILE: MERGE
+            EXISTING_OPS_FILE: MERGE
+            CF_API_KEY: ${CF_API_KEY?err}
+            CF_SLUG: liminal-industries
+            OVERRIDE_SERVER_PROPERTIES: "true"
+            ALLOW_FLIGHT: "true"
+            ENABLE_ROLLING_LOGS: "true"
+            MAX_TICK_TIME: "120000"
+        deploy:
+            resources:
+                limits:
+                    memory: 13G
+        volumes:
+            - $vols/liminal/data:/data
+        networks:
+            - mc-router0
+        restart: unless-stopped
+
+networks:
+    mc-router0:
+        name: mc-router0
+        external: true

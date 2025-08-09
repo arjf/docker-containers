@@ -1,0 +1,45 @@
+services:
+    ozone-reborn:
+        image: itzg/minecraft-server:latest
+        container_name: ozone-reborn
+        tty: true
+        user: 1000:1000
+        stdin_open: true
+        ports:
+            - "25567:25565"
+        environment:
+            EULA: "TRUE"
+            JVM_OPTS: "-Xms4G -Xmx12G -XX:+UseZGC -XX:+ZGenerational -XX:SoftMaxHeapSize=10g -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:+PerfDisableSharedMem -XX:+UseDynamicNumberOfGCThreads"
+            TYPE: "AUTO_CURSEFORGE"
+            LEVEL_TYPE: gardenofglass:gardenofglass
+            MAX_MEMORY: 12G
+            TZ: Asia/Kolkata
+            MOTD: "memento mori"
+            DIFFICULTY: hard
+            SERVER_NAME: "oh no"
+            LOG_TIMESTAMP: true
+            EXISTING_WHITELIST_FILE: MERGE
+            EXISTING_OPS_FILE: MERGE
+            CF_API_KEY: ${CF_API_KEY?err}
+            CF_SLUG: ozone-skyblock-reborn
+            OVERRIDE_SERVER_PROPERTIES: "true"
+            ALLOW_FLIGHT: "true"
+            ENABLE_ROLLING_LOGS: "false"
+            ONLINE_MODE: "false"
+            MAX_TICK_TIME: "120000"
+        deploy:
+            resources:
+                limits:
+                    memory: 13G
+        volumes:
+            - $vols/ozone-reborn/data:/data
+            - "$vols/ozone-reborn/OSR Server - 1.17.9.zip:/OSR.zip"
+            - $vols/ozone-reborn/downloads:/downloads
+        networks:
+            - mc-router0
+        restart: always
+
+networks:
+    mc-router0:
+        name: mc-router0
+        external: true

@@ -1,0 +1,22 @@
+services:
+    mc-router:
+        image: itzg/mc-router:latest
+        container_name: mc-router
+        restart: always
+        networks:
+            - mc-router0
+        environment:
+            MAPPING: |
+                mc.${DOMAIN?err}=liminal:25565
+        ports:
+            - 25565:25565
+
+networks:
+    mc-router0:
+        name: mc-router0
+        driver: bridge
+        ipam:
+            config:
+                - subnet: "172.30.0.0/16"
+        driver_opts:
+            com.docker.network.bridge.name: mc-router0

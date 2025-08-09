@@ -1,0 +1,40 @@
+services:
+    fo:
+        image: itzg/minecraft-server:latest
+        container_name: fo
+        tty: true
+        user: 1000:1000
+        stdin_open: true
+        ports:
+            - "25568:25565"
+        environment:
+            EULA: "TRUE"
+            USE_AIKAR_FLAGS: "TRUE"
+            TYPE: "VANILLA"
+            MAX_MEMORY: 4G
+            TZ: Asia/Kolkata
+            MOTD: ${MOTD?err}
+            DIFFICULTY: hard
+            SERVER_NAME: "we the best music"
+            LOG_TIMESTAMP: true
+            EXISTING_WHITELIST_FILE: MERGE
+            EXISTING_OPS_FILE: MERGE
+            OVERRIDE_SERVER_PROPERTIES: "true"
+            ALLOW_FLIGHT: "true"
+            ENABLE_ROLLING_LOGS: "true"
+            MAX_TICK_TIME: "120000"
+            ONLINE_MODE: "false"
+        deploy:
+            resources:
+                limits:
+                    memory: 5G
+        volumes:
+            - $vols/fo/data:/data
+        restart: always
+        networks:
+            - mc-router0
+
+networks:
+    mc-router0:
+        name: mc-router0
+        external: true

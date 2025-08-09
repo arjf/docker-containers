@@ -1,0 +1,43 @@
+services:
+    dumbass-explorer:
+        image: itzg/minecraft-server:latest
+        container_name: dumbass-explorer
+        tty: true
+        user: 1000:1000
+        stdin_open: true
+        ports:
+            - "25569:25565"
+        environment:
+            EULA: "TRUE"
+            USE_AIKAR_FLAGS: "TRUE"
+            TYPE: "MODRINTH"
+            MAX_MEMORY: 4G
+            TZ: Asia/Kolkata
+            RESOURCE_PACK: ${RESOURCE_PACK?err}
+            RESOURCE_PACK_ENFORCE: "true"
+            DIFFICULTY: hard
+            SERVER_NAME: "we the best music"
+            LOG_TIMESTAMP: true
+            EXISTING_WHITELIST_FILE: MERGE
+            EXISTING_OPS_FILE: MERGE
+            OVERRIDE_SERVER_PROPERTIES: "true"
+            ALLOW_FLIGHT: "true"
+            ENABLE_ROLLING_LOGS: "true"
+            MAX_TICK_TIME: "120000"
+            ONLINE_MODE: "false"
+            MODRINTH_MODPACK: "/data/Dumbass-Explorer.mrpack"
+        deploy:
+            resources:
+                limits:
+                    memory: 5G
+        volumes:
+            - $vols/dumbass-explorer/data:/data
+            - "$vols/dumbass-explorer/Dumbass-Explorer-Release.mrpack:/data/Dumbass-Explorer.mrpack"
+        restart: always
+        networks:
+            - mc-router0
+
+networks:
+    mc-router0:
+        name: mc-router0
+        external: true

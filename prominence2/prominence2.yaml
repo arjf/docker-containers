@@ -1,0 +1,46 @@
+services:
+    prominence2:
+        image: itzg/minecraft-server:latest
+        container_name: prominence2
+        tty: true
+        user: 1000:1000
+        stdin_open: true
+        ports:
+            - "25566:25565"
+        environment:
+            EULA: "TRUE"
+            JVM_OPTS: "-Xms4G -Xmx12G -XX:+UseZGC -XX:+ZGenerational -XX:SoftMaxHeapSize=10g -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:+PerfDisableSharedMem -XX:+UseDynamicNumberOfGCThreads"
+            TYPE: "AUTO_CURSEFORGE"
+            MAX_MEMORY: 12G
+            TZ: Asia/Kolkata
+            MOTD: "memento mori"
+            DIFFICULTY: hard
+            SERVER_NAME: "life"
+            LOG_TIMESTAMP: true
+            EXISTING_WHITELIST_FILE: MERGE
+            EXISTING_OPS_FILE: MERGE
+            CF_API_KEY: ${CF_API_KEY?err}
+            CF_SLUG: "prominence-2-rpg"
+            CF_EXCLUDE_MODS: |
+                welcome-screen
+                config-menus-forge
+            OVERRIDE_SERVER_PROPERTIES: "true"
+            ALLOW_FLIGHT: "true"
+            ENABLE_ROLLING_LOGS: "false"
+            ONLINE_MODE: "false"
+            MAX_TICK_TIME: "120000"
+        deploy:
+            resources:
+                limits:
+                    memory: 13G
+        volumes:
+            - $vols/prominence2/data:/data
+            - $vols/prominence2/downloads:/downloads
+        networks:
+            - mc-router0
+        restart: always
+
+networks:
+    mc-router0:
+        name: mc-router0
+        external: true

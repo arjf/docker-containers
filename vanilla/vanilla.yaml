@@ -1,0 +1,42 @@
+vanilla:
+    image: itzg/minecraft-server:latest
+    container_name: vanilla
+    tty: true
+    user: 1000:1000
+    stdin_open: true
+    ports:
+        - "25568:25565"
+    environment:
+        EULA: "TRUE"
+        USE_AIKAR_FLAGS: "TRUE"
+        TYPE: "MODRINTH"
+        MAX_MEMORY: 4G
+        TZ: Asia/Kolkata
+        RESOURCE_PACK: ${RESOURCE_PACK:?err}
+        RESOURCE_PACK_ENFORCE: "true"
+        DIFFICULTY: hard
+        LOG_TIMESTAMP: true
+        EXISTING_WHITELIST_FILE: MERGE
+        EXISTING_OPS_FILE: MERGE
+        OVERRIDE_SERVER_PROPERTIES: "true"
+        ALLOW_FLIGHT: "true"
+        ENABLE_ROLLING_LOGS: "true"
+        MAX_TICK_TIME: "120000"
+        ONLINE_MODE: "false"
+        MODRINTH_MODPACK: fabulously-optimized
+        MODRINTH_DEFAULT_VERSION_TYPE: alpha
+    deploy:
+        resources:
+            limits:
+                memory: 5G
+    volumes:
+        - $vols/vanilla/data:/data
+        - $vols/vanilla/CustomServerTextures.zip:/data/rp.zip
+    restart: always
+    networks:
+        - mc-router0
+
+networks:
+    mc-router0:
+        name: mc-router0
+        external: true

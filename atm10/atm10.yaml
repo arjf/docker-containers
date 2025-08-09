@@ -1,0 +1,44 @@
+services:
+    atm10:
+        image: itzg/minecraft-server:latest
+        container_name: atm10
+        tty: true
+        user: 1000:1000
+        stdin_open:
+            true
+            #ports:
+            #- "25566:25565"
+        environment:
+            EULA: "TRUE"
+            JVM_OPTS: "-Xms4G -Xmx6G -XX:+UseZGC -XX:+ZGenerational -XX:SoftMaxHeapSize=10g -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:+PerfDisableSharedMem -XX:+UseDynamicNumberOfGCThreads"
+            TYPE: "AUTO_CURSEFORGE"
+            MAX_MEMORY: 8G
+            TZ: Asia/Kolkata
+            MOTD: "memento mori"
+            DIFFICULTY: hard
+            SERVER_NAME: "kitchen is sinking"
+            LOG_TIMESTAMP: true
+            EXISTING_WHITELIST_FILE: MERGE
+            EXISTING_OPS_FILE: MERGE
+            CF_API_KEY: ${CF_API_KEY?err}
+            CF_SLUG: all-the-mods-10
+            OVERRIDE_SERVER_PROPERTIES: "true"
+            ALLOW_FLIGHT: "true"
+            ENABLE_ROLLING_LOGS: "false"
+            MAX_TICK_TIME: "120000"
+            CF_EXCLUDE_MODS: "smithing-template-viewer"
+        deploy:
+            resources:
+                limits:
+                    memory: 7G
+        volumes:
+            - $vols/atm10/data:/data
+            - $vols/atm10/downloads:/downloads
+        networks:
+            - mc-router0
+        restart: unless-stopped
+
+networks:
+    mc-router0:
+        name: mc-router0
+        external: true
