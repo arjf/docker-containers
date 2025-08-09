@@ -20,6 +20,7 @@ services:
             CF_API_KEY: ${CF_API_KEY?err}
             CF_SLUG: liminal-industries
             OVERRIDE_SERVER_PROPERTIES: "true"
+            ENABLE_COMMAND_BLOCK: "true"
             ALLOW_FLIGHT: "true"
             ENABLE_ROLLING_LOGS: "true"
             MAX_TICK_TIME: "120000"
